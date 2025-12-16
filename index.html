@@ -3,28 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Dashboard</title>
+    <title>Premium Vault</title>
     <style>
         /* =========================================
            VARIABLES & RESET
            ========================================= */
         :root {
             --bg-body: #050505;
-            --bg-sidebar: rgba(20, 20, 20, 0.95);
-            --bg-card: rgba(35, 35, 35, 0.6);
-            --bg-glass: rgba(255, 255, 255, 0.03);
-            --border-glass: rgba(255, 255, 255, 0.08);
-            
+            --bg-card: #141414;
             --text-main: #ffffff;
             --text-muted: #888888;
             
-            --accent-primary: #6c5ce7; /* Premium Purple */
-            --accent-hover: #5649c0;
-            --accent-glow: rgba(108, 92, 231, 0.5);
+            --accent-primary: #00d2ff; /* Cyan Glow */
+            --accent-secondary: #3a7bd5;
+            --accent-glow: 0 0 15px rgba(0, 210, 255, 0.3);
             
-            --sidebar-width: 260px;
-            --header-height: 80px;
             --radius-card: 16px;
+            --radius-pill: 50px;
             --anim-speed: 0.3s;
         }
 
@@ -32,125 +27,79 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-font-smoothing: antialiased;
-            user-select: none; /* Prevent text selection */
+            user-select: none; /* Security: Prevent text selection */
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-body);
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(108, 92, 231, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 85% 30%, rgba(0, 200, 255, 0.05) 0%, transparent 50%);
             color: var(--text-main);
             height: 100vh;
-            overflow: hidden; /* App-like feel */
+            overflow: hidden;
             display: flex;
+            flex-direction: column;
+            /* Premium Background Mesh */
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(58, 123, 213, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(0, 210, 255, 0.05) 0%, transparent 40%);
         }
 
         /* =========================================
-           SIDEBAR
+           HEADER & FILTERS (Single Page Layout)
            ========================================= */
-        .sidebar {
-            width: var(--sidebar-width);
-            background: var(--bg-sidebar);
-            border-right: 1px solid var(--border-glass);
+        header {
+            padding: 20px 30px;
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
             display: flex;
             flex-direction: column;
-            padding: 30px 20px;
-            backdrop-filter: blur(20px);
-            z-index: 20;
+            gap: 15px;
+            z-index: 10;
         }
 
-        .brand {
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-title {
             font-size: 1.4rem;
             font-weight: 700;
+            color: #fff;
+            letter-spacing: -0.5px;
             display: flex;
             align-items: center;
-            gap: 12px;
-            color: #fff;
-            margin-bottom: 50px;
-            padding-left: 10px;
+            gap: 10px;
+            text-shadow: 0 0 20px rgba(0, 210, 255, 0.4);
         }
 
-        .brand svg {
+        .brand-subtitle {
+            font-size: 0.75rem;
             color: var(--accent-primary);
-            width: 28px;
-            height: 28px;
-        }
-
-        .nav-menu {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 14px 16px;
-            border-radius: 12px;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: all 0.2s ease;
             font-weight: 500;
-            font-size: 0.95rem;
+            margin-top: 2px;
+            letter-spacing: 0.5px;
         }
 
-        .nav-item:hover, .nav-item.active {
-            background: rgba(108, 92, 231, 0.1);
-            color: #fff;
-        }
-
-        .nav-item.active {
-            background: var(--accent-primary);
-            box-shadow: 0 4px 15px var(--accent-glow);
-        }
-
-        .nav-item svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        /* =========================================
-           MAIN AREA
-           ========================================= */
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Header */
-        header {
-            height: var(--header-height);
-            padding: 0 40px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid var(--border-glass);
-            background: rgba(5, 5, 5, 0.6);
-            backdrop-filter: blur(10px);
-        }
-
-        .page-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-
+        /* Download All Button */
         .btn-premium {
-            background: linear-gradient(135deg, #6c5ce7, #8e7dff);
-            color: white;
-            padding: 10px 24px;
-            border-radius: 50px;
+            background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
+            color: #000;
+            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: var(--radius-pill);
             border: none;
-            font-weight: 600;
-            font-size: 0.9rem;
             cursor: pointer;
-            box-shadow: 0 0 20px rgba(108, 92, 231, 0.3);
+            font-size: 0.85rem;
+            box-shadow: var(--accent-glow);
             transition: transform 0.2s;
             display: flex;
             align-items: center;
@@ -159,296 +108,290 @@
 
         .btn-premium:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(108, 92, 231, 0.5);
+            box-shadow: 0 0 25px rgba(0, 210, 255, 0.6);
         }
 
-        /* Grid Scroll Area */
-        .scroll-area {
+        /* Filter Pills */
+        .filter-bar {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            scrollbar-width: none; /* Firefox */
+        }
+        .filter-bar::-webkit-scrollbar { display: none; } /* Chrome */
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            padding: 8px 18px;
+            border-radius: var(--radius-pill);
+            font-size: 0.9rem;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: rgba(0, 210, 255, 0.1);
+            color: var(--accent-primary);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 10px rgba(0, 210, 255, 0.2);
+        }
+
+        /* =========================================
+           GRID CONTENT
+           ========================================= */
+        main {
             flex: 1;
             overflow-y: auto;
-            padding: 40px;
+            padding: 20px 30px;
         }
 
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 25px;
-            padding-bottom: 60px;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Smaller cards for popup */
+            gap: 20px;
+            padding-bottom: 40px;
         }
 
         /* =========================================
-           CARDS
+           CARD DESIGN
            ========================================= */
         .card {
             background: var(--bg-card);
-            border: 1px solid var(--border-glass);
+            border: 1px solid rgba(255,255,255,0.05);
             border-radius: var(--radius-card);
             overflow: hidden;
-            transition: all var(--anim-speed) ease;
             position: relative;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             display: flex;
             flex-direction: column;
-            height: 320px;
         }
 
         .card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(108, 92, 231, 0.4);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transform: translateY(-5px);
+            border-color: rgba(0, 210, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
         }
 
-        .card-preview {
-            height: 180px;
+        .card-thumbnail {
+            height: 140px;
             width: 100%;
-            background: #111;
+            background: #000;
             position: relative;
             overflow: hidden;
         }
 
-        .card-preview img {
+        .card-thumbnail img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s ease;
             opacity: 0.8;
+            transition: transform 0.5s ease;
         }
 
-        .card:hover .card-preview img {
+        .card:hover .card-thumbnail img {
             transform: scale(1.1);
             opacity: 1;
         }
 
-        .card-type-badge {
+        /* Type Icon Overlay */
+        .type-icon {
             position: absolute;
             top: 10px;
-            left: 10px;
-            background: rgba(0,0,0,0.7);
+            right: 10px;
+            background: rgba(0,0,0,0.6);
             backdrop-filter: blur(4px);
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
             border: 1px solid rgba(255,255,255,0.1);
         }
 
-        .card-content {
-            padding: 18px;
-            flex: 1;
+        .card-body {
+            padding: 15px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            gap: 12px;
+            flex: 1;
         }
 
         .card-title {
-            color: #fff;
+            font-size: 0.95rem;
             font-weight: 500;
-            margin-bottom: 5px;
-            font-size: 1rem;
+            color: #fff;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        .card-sub {
-            color: var(--text-muted);
-            font-size: 0.8rem;
-        }
-
         .card-actions {
             display: flex;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 8px;
+            margin-top: auto;
         }
 
-        .action-btn {
+        .btn-action {
             flex: 1;
-            padding: 10px;
+            padding: 8px;
             border-radius: 8px;
             border: none;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
+            font-weight: 600;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
-            transition: all 0.2s;
-            outline: none;
+            gap: 5px;
+            transition: 0.2s;
         }
 
-        /* Preview Button */
         .btn-view {
-            background: rgba(108, 92, 231, 0.15);
-            color: #d1ccf8;
-            border: 1px solid rgba(108, 92, 231, 0.3);
+            background: rgba(255,255,255,0.1);
+            color: #fff;
         }
         .btn-view:hover {
-            background: var(--accent-primary);
-            color: white;
+            background: #fff;
+            color: #000;
         }
 
-        /* Download Button (No URL shown) */
         .btn-down {
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
-            border: 1px solid var(--border-glass);
+            background: rgba(0, 210, 255, 0.1);
+            color: var(--accent-primary);
+            border: 1px solid rgba(0, 210, 255, 0.2);
         }
         .btn-down:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--accent-primary);
+            color: #000;
         }
 
         /* =========================================
-           MODAL (FULL SCREEN)
+           MODAL (FULLSCREEN)
            ========================================= */
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(20px);
-            z-index: 1000;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(15px);
+            z-index: 999;
             display: none;
             opacity: 0;
-            transition: opacity 0.3s ease;
-            align-items: center;
+            transition: opacity 0.3s;
             justify-content: center;
+            align-items: center;
         }
 
-        .modal-overlay.active {
-            display: flex;
-            opacity: 1;
-        }
+        .modal-overlay.active { display: flex; opacity: 1; }
 
-        .modal-container {
-            width: 95vw;
-            height: 95vh;
-            background: #000;
-            border: 1px solid #333;
-            border-radius: 12px;
+        .modal-content {
+            width: 100%;
+            height: 100%;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
-            position: relative;
+            background: #000;
         }
 
         .modal-header {
             padding: 15px 25px;
-            background: #111;
-            border-bottom: 1px solid #333;
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        .modal-title-text {
-            font-size: 1.1rem;
-            color: #fff;
+            border-bottom: 1px solid #333;
         }
 
         .modal-close {
-            background: #222;
+            background: none;
             border: none;
             color: #fff;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
+            font-size: 2rem;
             cursor: pointer;
-            font-size: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
-        .modal-close:hover { background: #333; }
 
         .modal-body {
             flex: 1;
-            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #000;
+            overflow: hidden;
+            position: relative;
         }
 
-        /* Viewer Elements */
-        .viewer-media {
-            width: 100%;
-            height: 100%;
+        .view-media {
+            max-width: 100%;
+            max-height: 100%;
             object-fit: contain;
         }
-        iframe.viewer-media { border: none; }
+        
+        iframe.view-media { width: 100%; height: 100%; border: none; }
 
-        /* Scrollbar Styling */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #555; }
-
-        /* Responsive */
-        @media (max-width: 900px) {
-            body { flex-direction: column; overflow: auto; }
-            .sidebar { width: 100%; height: auto; flex-direction: row; padding: 15px; overflow-x: auto; }
-            .nav-menu { flex-direction: row; }
-            .brand { margin-bottom: 0; margin-right: 30px; font-size: 1.2rem; }
-            .main-content { height: auto; overflow: visible; }
-            header { display: none; }
-            .scroll-area { overflow: visible; padding: 20px; }
-        }
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
     </style>
 </head>
 <body>
 
-    <!-- SIDEBAR MENU -->
-    <nav class="sidebar">
-        <div class="brand">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L1 21h22L12 2zm0 3.99L19.53 19H4.47L12 5.99zM11 16h2v2h-2zm0-6h2v4h-2z"/></svg>
-            Vault
-        </div>
-
-        <div class="nav-menu">
-            <div class="nav-item active" onclick="filterGrid('all', this)">
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-                Dashboard
+    <header>
+        <div class="header-top">
+            <div class="brand-container">
+                <div class="brand-title">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zm0 9l2.5-1.25L12 8.5l-2.5 1.25L12 11zm0 2.5l-5-2.5-5 2.5L12 22l10-8.5-5-2.5-5 2.5z"/>
+                    </svg>
+                    Premium Vault
+                </div>
+                <div class="brand-subtitle">Preferred by Bookmintor</div>
             </div>
-            <div class="nav-item" onclick="filterGrid('video', this)">
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                Videos
-            </div>
-            <div class="nav-item" onclick="filterGrid('audio', this)">
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
-                Audio
-            </div>
-            <div class="nav-item" onclick="filterGrid('pdf', this)">
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                Ebooks
-            </div>
-            <div class="nav-item" onclick="filterGrid('image', this)">
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                Mindmaps
-            </div>
-        </div>
-    </nav>
-
-    <!-- MAIN CONTENT -->
-    <section class="main-content">
-        <header>
-            <div class="page-title" id="pageTitle">All Content</div>
-            <button class="btn-premium" onclick="secureDownload('archive.zip')">
-                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                <span>Download All</span>
+            
+            <button class="btn-premium" onclick="secureDownload('all.zip')">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                <span>Full ZIP</span>
             </button>
-        </header>
-
-        <div class="scroll-area">
-            <div id="grid" class="grid-container">
-                <!-- Content injected here -->
-            </div>
         </div>
-    </section>
 
-    <!-- FULL SCREEN MODAL -->
+        <div class="filter-bar">
+            <button class="filter-btn active" onclick="filterContent('all', this)">
+                All
+            </button>
+            <button class="filter-btn" onclick="filterContent('video', this)">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Video
+            </button>
+            <button class="filter-btn" onclick="filterContent('audio', this)">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
+                Audio
+            </button>
+            <button class="filter-btn" onclick="filterContent('pdf', this)">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                Ebooks
+            </button>
+            <button class="filter-btn" onclick="filterContent('image', this)">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                Mindmaps
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <div id="grid" class="grid-container">
+            <!-- Content Loads Here -->
+        </div>
+    </main>
+
+    <!-- VIEWER MODAL -->
     <div id="modal" class="modal-overlay">
-        <div class="modal-container">
+        <div class="modal-content">
             <div class="modal-header">
-                <span class="modal-title-text" id="modalTitle">Preview</span>
+                <span style="color:#fff; font-weight:600" id="modalTitle">Preview</span>
                 <button class="modal-close" onclick="closeModal()">&times;</button>
             </div>
             <div class="modal-body" id="modalBody">
@@ -458,120 +401,68 @@
     </div>
 
     <script>
-        // --- 1. SECURITY SYSTEM ---
-        
-        // Disable Right Click
-        document.addEventListener('contextmenu', event => event.preventDefault());
-
-        // Disable Shortcuts (F12, Ctrl+U, Ctrl+Shift+I, etc)
-        document.addEventListener('keydown', function(e) {
-            if(
-                e.key === "F12" || 
-                (e.ctrlKey && e.shiftKey && e.key === "I") || 
-                (e.ctrlKey && e.shiftKey && e.key === "J") || 
-                (e.ctrlKey && e.key === "u") ||
-                (e.ctrlKey && e.key === "U")
-            ) {
+        // SECURITY: Disable Context Menu & Shortcuts
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('keydown', e => {
+            if(e.key === "F12" || (e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.shiftKey))) {
                 e.preventDefault();
-                return false;
             }
         });
 
-        // --- 2. DATA & CONFIG ---
-        
-        const FALLBACK_DATA = [
-            {
-                "title": "Clean Code Guide 2024",
-                "type": "pdf",
-                "category": "Ebook",
-                "preview": "https://images.unsplash.com/photo-1586717791821-3f44a5638d48?auto=format&fit=crop&q=80&w=600",
-                "file": "https://github.com/progit/progit2/releases/download/2.1.433/progit.pdf"
-            },
-            {
-                "title": "Growth Strategy Map",
-                "type": "image",
-                "category": "Mindmap",
-                "preview": "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&q=80&w=600",
-                "file": "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&q=80&w=1600"
-            },
-            {
-                "title": "UI Animation Masterclass",
-                "type": "video",
-                "category": "Video",
-                "preview": "https://images.unsplash.com/photo-1492619882492-48618e7d16f4?auto=format&fit=crop&q=80&w=600",
-                "file": "https://github.com/intel-iot-devkit/sample-videos/raw/master/classroom.mp4"
-            },
-            {
-                "title": "Future Tech Podcast",
-                "type": "audio",
-                "category": "Audio",
-                "preview": "https://images.unsplash.com/photo-1478737270239-2f02b77ac6d5?auto=format&fit=crop&q=80&w=600",
-                "file": "https://github.com/rafaelreis-hotmart/Audio-Sample-files/raw/master/sample.mp3"
-            },
-            {
-                "title": "System Architecture",
-                "type": "image",
-                "category": "Mindmap",
-                "preview": "https://images.unsplash.com/photo-1558403194-611308249627?auto=format&fit=crop&q=80&w=600",
-                "file": "https://images.unsplash.com/photo-1558403194-611308249627?auto=format&fit=crop&q=80&w=1600"
-            }
+        // SAMPLE DATA (Fallback)
+        const DATA = [
+            { title: "Clean Code Ebook", type: "pdf", preview: "https://images.unsplash.com/photo-1555421689-491a97ff2040?w=500&q=80", file: "https://github.com/progit/progit2/releases/download/2.1.433/progit.pdf" },
+            { title: "Marketing Mindmap", type: "image", preview: "https://images.unsplash.com/photo-1512314889357-e157c22f938d?w=500&q=80", file: "https://images.unsplash.com/photo-1512314889357-e157c22f938d?w=1600" },
+            { title: "Intro to AI Video", type: "video", preview: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500&q=80", file: "https://github.com/intel-iot-devkit/sample-videos/raw/master/classroom.mp4" },
+            { title: "Tech Podcast #1", type: "audio", preview: "https://images.unsplash.com/photo-1478737270239-2f02b77ac6d5?w=500&q=80", file: "https://github.com/rafaelreis-hotmart/Audio-Sample-files/raw/master/sample.mp3" },
+            { title: "Project Plan PDF", type: "pdf", preview: "https://images.unsplash.com/photo-1586717791821-3f44a5638d48?w=500&q=80", file: "https://github.com/progit/progit2/releases/download/2.1.433/progit.pdf" }
         ];
 
-        let contentData = [];
-        let currentFilter = 'all';
-
-        // --- 3. CORE LOGIC ---
+        let content = [];
 
         async function init() {
             try {
-                const response = await fetch('data.json');
-                if (!response.ok) throw new Error('Err');
-                contentData = await response.json();
-            } catch (err) {
-                contentData = FALLBACK_DATA;
+                const res = await fetch('data.json');
+                if(!res.ok) throw new Error();
+                content = await res.json();
+            } catch(e) {
+                content = DATA;
             }
-            renderGrid();
+            render(content);
         }
 
-        // Render Cards
-        function renderGrid() {
+        function render(data) {
             const grid = document.getElementById('grid');
             grid.innerHTML = '';
-
-            const filtered = currentFilter === 'all' 
-                ? contentData 
-                : contentData.filter(item => item.type === currentFilter);
-
-            if(filtered.length === 0) {
-                grid.innerHTML = `<div style="color:#666; font-size:1.2rem; grid-column:1/-1; text-align:center; padding-top:40px;">No content found in this category.</div>`;
+            
+            if(data.length === 0) {
+                grid.innerHTML = '<div style="color:#666; text-align:center; grid-column:1/-1; padding-top:20px;">No items found.</div>';
                 return;
             }
 
-            filtered.forEach((item, index) => {
-                // Find actual index in original array for onclick mapping
-                const originalIndex = contentData.indexOf(item);
-                
+            data.forEach((item, index) => {
+                // Determine icon based on type
+                let typeIcon = '';
+                if(item.type==='video') typeIcon = '<svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+                else if(item.type==='audio') typeIcon = '<svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>';
+                else if(item.type==='image') typeIcon = '<svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>';
+                else typeIcon = '<svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>';
+
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.innerHTML = `
-                    <div class="card-preview">
-                        <img src="${item.preview}" alt="preview">
-                        <div class="card-type-badge">${item.category || item.type}</div>
+                    <div class="card-thumbnail">
+                        <img src="${item.preview}" alt="img">
+                        <div class="type-icon">${typeIcon}</div>
                     </div>
-                    <div class="card-content">
-                        <div>
-                            <div class="card-title">${item.title}</div>
-                            <div class="card-sub">Premium Asset</div>
-                        </div>
+                    <div class="card-body">
+                        <div class="card-title">${item.title}</div>
                         <div class="card-actions">
-                            <button class="action-btn btn-view" onclick="openPreview(${originalIndex})">
-                                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-                                Preview
+                            <button class="btn-action btn-view" onclick="preview('${item.file}', '${item.type}', '${item.title.replace(/'/g, "\\'")}')">
+                                👁 Preview
                             </button>
-                            <!-- Secure Download Button (No Href displayed) -->
-                            <button class="action-btn btn-down" onclick="secureDownload('${item.file}')">
-                                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                                Download
+                            <button class="btn-action btn-down" onclick="secureDownload('${item.file}')">
+                                ⬇ Save
                             </button>
                         </div>
                     </div>
@@ -580,68 +471,49 @@
             });
         }
 
-        // --- 4. SECURE DOWNLOAD ---
-        // Creates a temporary link programmatically so users don't see URL on hover
-        window.secureDownload = (url) => {
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = ''; // Trigger download
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+        // Filter Logic
+        window.filterContent = (type, btn) => {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            const filtered = type === 'all' ? content : content.filter(i => i.type === type);
+            render(filtered);
         }
 
-        // --- 5. PREVIEW SYSTEM ---
-        window.openPreview = (index) => {
-            const item = contentData[index];
+        // Secure Download (No URL Hover)
+        window.secureDownload = (url) => {
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = '';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        // Preview Logic
+        window.preview = (url, type, title) => {
             const modal = document.getElementById('modal');
             const body = document.getElementById('modalBody');
-            const title = document.getElementById('modalTitle');
+            document.getElementById('modalTitle').innerText = title;
             
-            title.innerText = item.title;
-            body.innerHTML = ''; // Clear previous
-
-            let content = '';
-            if(item.type === 'video') {
-                content = `<video class="viewer-media" controls autoplay src="${item.file}"></video>`;
-            } else if(item.type === 'audio') {
-                content = `<div style="text-align:center"><svg style="width:100px;height:100px;color:#6c5ce7;margin-bottom:20px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg><br><audio controls autoplay src="${item.file}"></audio></div>`;
-            } else if(item.type === 'pdf') {
-                content = `<iframe class="viewer-media" src="${item.file}"></iframe>`;
-            } else {
-                content = `<img class="viewer-media" src="${item.file}">`;
-            }
-
-            body.innerHTML = content;
+            body.innerHTML = '';
+            let html = '';
+            
+            if(type === 'video') html = `<video class="view-media" controls autoplay src="${url}"></video>`;
+            else if(type === 'audio') html = `<audio class="view-media" controls autoplay src="${url}" style="width:80%"></audio>`;
+            else if(type === 'pdf') html = `<iframe class="view-media" src="${url}"></iframe>`;
+            else html = `<img class="view-media" src="${url}">`;
+            
+            body.innerHTML = html;
             modal.classList.add('active');
         }
 
         window.closeModal = () => {
-            const modal = document.getElementById('modal');
-            modal.classList.remove('active');
-            setTimeout(() => {
-                document.getElementById('modalBody').innerHTML = '';
-            }, 300);
+            document.getElementById('modal').classList.remove('active');
+            setTimeout(() => document.getElementById('modalBody').innerHTML = '', 200);
         }
 
-        // --- 6. NAVIGATION ---
-        window.filterGrid = (type, element) => {
-            currentFilter = type;
-            
-            // UI Update
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            element.classList.add('active');
-            
-            // Title Update
-            const map = { 'all': 'Dashboard', 'video': 'Video Library', 'audio': 'Audio Collection', 'pdf': 'Ebooks & PDFs', 'image': 'Mindmaps' };
-            document.getElementById('pageTitle').innerText = map[type];
-
-            renderGrid();
-        }
-
-        // Start App
         init();
-
     </script>
 </body>
 </html>
